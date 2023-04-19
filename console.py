@@ -11,6 +11,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 import re
+import os
 
 
 def tokenize(args: str) -> list:
@@ -29,13 +30,13 @@ def tokenize(args: str) -> list:
     params_validator = re.compile(param_pattern)
 
     token: list = list()
-    
+
     obj_class = class_validator.findall(args)
     obj_param = params_validator.findall(args)
-    
+
     if len(obj_class) != 0:
         token.append(obj_class[0])
-    token.append([data[0] for data in obj_param])    
+    token.append([data[0] for data in obj_param])
     return token
 
 
@@ -152,7 +153,6 @@ class HBNBCommand(cmd.Cmd):
         class_name = tokens[0]
         # extract all params
         params = tokens[1]
-        
         # if class not in class
         if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
@@ -163,7 +163,7 @@ class HBNBCommand(cmd.Cmd):
         for param in params:
             try:
                 k, v = param.split("=")
-                k = k.replace("_", " ")
+                v = v.replace("_", " ")
                 if v[0] == '"' and v[-1] == '"' and len(v) > 1:
                     v = v[1:-1]
                 elif "." in v:
@@ -370,6 +370,17 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
+    def do_clear(self, args):
+        """Clears the screen
+
+        Args:
+            args(str): console args
+        """
+        if os.name == 'nt':
+            os.system('cls')
+        else:
+            os.system('clear')
 
 
 if __name__ == "__main__":
