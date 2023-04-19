@@ -17,5 +17,10 @@ class State(BaseModel, Base):
     def cities(self):
         """All cities associated with city id."""
         cities_list = []
-        from models import storage
-        all_object = storage.all()
+        # from models import storage
+        # all_object = storage.all()
+        # review_list = []
+        for city in models.storage.all(City).values():
+            if city.state_id == self.id:
+                review_list.append(city)
+        return review_list

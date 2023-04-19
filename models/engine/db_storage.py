@@ -20,6 +20,7 @@ HOST = environ.get("HBNB_MYSQL_HOST")
 DB = environ.get("HBNB_MYSQL_DB")
 ENV = environ.get("HBNB_ENV")
 
+
 class DBStorage:
     """Database storage class for dbstorage instance creation."""
 
@@ -27,7 +28,12 @@ class DBStorage:
     __session = None
 
     classes = {
-        'State': State, 'City': City,
+        'State': State,
+        'City': City,
+        'Place': Place,
+        'Review': Review,
+        'User': User,
+        'Amenity': Amenity
     }
 
     def __init__(self):

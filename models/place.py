@@ -21,19 +21,19 @@ class Place(BaseModel, Base):
     longitude = Column(Float, nullable=True)
     amenity_ids = []
 
-    if getenv('HBNB_TYPE_STORAGE') == 'db':
-        reviews = relationship('Review', backref='place',
-                               cascade='all, delete')
-        amenities = relationship('Amenity', secondary='place_amenity',
-                                 viewonly=False)
+    # if getenv('HBNB_TYPE_STORAGE') == 'db':
+    # reviews = relationship('Review', backref='place',
+    #                        cascade='all, delete')
+    # amenities = relationship('Amenity', secondary='place_amenity',
+    #                          viewonly=False)
 
-    else:
-        @property
-        def reviews(self):
-            """ Getter attribute reviews that returns the list of Review
-            instances with place_id equals to the current Place.id """
-            review_list = []
-            for review in models.storage.all(Review).values():
-                if review.place_id == self.id:
-                    review_list.append(review)
-            return review_list
+    # else:
+    #     @property
+    #     def reviews(self):
+    #         """ Getter attribute reviews that returns the list of Review
+    #         instances with place_id equals to the current Place.id """
+    #         review_list = []
+    #         for review in models.storage.all(Review).values():
+    #             if review.place_id == self.id:
+    #                 review_list.append(review)
+    #         return review_list
