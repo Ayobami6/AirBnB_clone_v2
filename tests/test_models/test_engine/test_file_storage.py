@@ -2,8 +2,11 @@
 """ Module for testing file storage"""
 import unittest
 from models.base_model import BaseModel
+from models.state import State
 from models import storage
 import os
+from unittest.mock import patch
+from models.engine.file_storage import FileStorage
 
 
 class test_fileStorage(unittest.TestCase):
@@ -104,6 +107,25 @@ class test_fileStorage(unittest.TestCase):
 
     def test_storage_var_created(self):
         """ FileStorage object storage created """
-        from models.engine.file_storage import FileStorage
+        # from models.engine.file_storage import FileStorage
         print(type(storage))
         self.assertEqual(type(storage), FileStorage)
+
+    # @patch('models.engine.file_storage.FileStorage._FileStorage__objects',
+    #        {'ClassName.id1': 'object1', 'ClassName.id2': 'object2',
+    #         'OtherClassName.id1': 'object3', 'OtherClassName.id2': 'object4'})
+    def test_all_with_cls(self):
+        file_storage = FileStorage()
+        ClassName = 'ClassName.id1'.split('.')[0]
+        result = file_storage.all(cls=type(ClassName))
+        self.assertEqual(
+            result, {})
+
+    @patch('models.engine.file_storage.FileStorage._FileStorage__objects',
+           {'ClassName.id1': 'object1', 'ClassName.id2': 'object2',
+            'OtherClassName.id1': 'object3', 'OtherClassName.id2': 'object4'})
+    def test_all_without_cls(self):
+        file_storage = FileStorage()
+        result = file_storage.all()
+        self.assertEqual(result, {'ClassName.id1': 'object1', 'ClassName.id2': 'object2',
+                         'OtherClassName.id1': 'object3', 'OtherClassName.id2': 'object4'})
