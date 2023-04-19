@@ -1,9 +1,9 @@
 #!/usr/bin/python3
-""" Console Module """
+"""Console Module."""
 import cmd
 import sys
 from models.base_model import BaseModel
-from models.__init__ import storage
+from models import storage
 from models.user import User
 from models.place import Place
 from models.state import State
@@ -15,7 +15,7 @@ import os
 
 
 def tokenize(args: str) -> list:
-    """Tokenizer
+    """Tokenizer.
 
     Args:
         args (str): Description
@@ -41,7 +41,7 @@ def tokenize(args: str) -> list:
 
 
 class HBNBCommand(cmd.Cmd):
-    """ Contains the functionality for the HBNB console"""
+    """Contains the functionality for the HBNB console."""
 
     # determines prompt for interactive/non-interactive modes
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
@@ -59,7 +59,7 @@ class HBNBCommand(cmd.Cmd):
     }
 
     def preloop(self):
-        """Prints if isatty is false"""
+        """Prints if isatty is false."""
         if not sys.__stdin__.isatty():
             print('(hbnb)')
 
@@ -152,7 +152,8 @@ class HBNBCommand(cmd.Cmd):
         # extract the class name
         class_name = tokens[0]
         # extract all params
-        params = tokens[1]
+        params = tokens[1:]
+
         # if class not in class
         if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
@@ -173,7 +174,7 @@ class HBNBCommand(cmd.Cmd):
                 setattr(new_instance, k, v)
             except ValueError:
                 continue
-        storage.save()
+        new_instance.save()
         print(new_instance.id)
         storage.save()
 
@@ -206,7 +207,7 @@ class HBNBCommand(cmd.Cmd):
 
         key = c_name + "." + c_id
         try:
-            print(storage._FileStorage__objects[key])
+            print(storage.all()[key])
         except KeyError:
             print("** no instance found **")
 
@@ -238,7 +239,7 @@ class HBNBCommand(cmd.Cmd):
         key = c_name + "." + c_id
 
         try:
-            del (storage.all()[key])
+            storage.delete(key)
             storage.save()
         except KeyError:
             print("** no instance found **")
@@ -257,11 +258,11 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all(args).items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all(None).items():
                 print_list.append(str(v))
 
         print(print_list)
@@ -274,7 +275,7 @@ class HBNBCommand(cmd.Cmd):
     def do_count(self, args):
         """Count current number of class instances"""
         count = 0
-        for k, v in storage._FileStorage__objects.items():
+        for k, v in storage.all().items():
             if args == k.split('.')[0]:
                 count += 1
         print(count)

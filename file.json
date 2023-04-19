@@ -1,16 +1,1 @@
-{
-	"State.2f284b3f-5586-4171-9187-5c42881a4e7c": {
-		"id": "2f284b3f-5586-4171-9187-5c42881a4e7c",
-		"created_at": "2023-04-19T13:47:39.718292",
-		"updated_at": "2023-04-19T13:47:39.718320",
-		"name": "California",
-		"__class__": "State"
-	},
-	"State.18551189-8365-4ef1-8ec3-6906a6ba850b": {
-		"id": "18551189-8365-4ef1-8ec3-6906a6ba850b",
-		"created_at": "2023-04-19T13:47:39.719614",
-		"updated_at": "2023-04-19T13:47:39.719635",
-		"name": "Nevada",
-		"__class__": "State"
-	}
-}
+{"BaseModel.b82bca98-0c0b-487f-a1dd-fd6241135a56": {"id": "b82bca98-0c0b-487f-a1dd-fd6241135a56", "created_at": "2023-04-19T13:11:46.906159", "updated_at": "2023-04-19T16:18:37.435730", "name": "Jojo Thomas", "email": "jojo@email.com", "__class__": "BaseModel"}, "User.0bd80f87-f41a-4fe7-be3a-cd858b177016": {"id": "0bd80f87-f41a-4fe7-be3a-cd858b177016", "created_at": "2023-04-19T14:21:01.861579", "updated_at": "2023-04-19T14:21:01.861634", "name": "jojo thomas", "__class__": "User"}}
