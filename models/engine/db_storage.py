@@ -13,16 +13,12 @@ from models.review import Review
 from models.state import State
 from models.user import User
 
-try:
-    USER = environ["HBNB_MYSQL_USER"]
-    PWD = environ["HBNB_MYSQL_PWD"]
-    HOST = environ["HBNB_MYSQL_HOST"]
-    DB = environ["HBNB_MYSQL_DB"]
-    ENV = environ["HBNB_ENV"]
-except Exception:
-    print("env not set")
-    exit(-1)
 
+USER = environ.get("HBNB_MYSQL_USER")
+PWD = environ.get("HBNB_MYSQL_PWD")
+HOST = environ.get("HBNB_MYSQL_HOST")
+DB = environ.get("HBNB_MYSQL_DB")
+ENV = environ.get("HBNB_ENV")
 
 class DBStorage:
     """Database storage class for dbstorage instance creation."""

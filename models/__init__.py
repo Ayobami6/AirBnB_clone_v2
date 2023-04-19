@@ -6,7 +6,7 @@ from models.engine.db_storage import DBStorage
 from os import environ
 
 # using environmental variable to know which storage method to user
-if environ["HBNB_TYPE_STORAGE"] == "db":
+if environ.get("HBNB_TYPE_STORAGE") == "db":
     storage = DBStorage()
 else:
     storage = FileStorage()
