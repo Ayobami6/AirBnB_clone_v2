@@ -3,7 +3,7 @@
 
 from sqlalchemy.engine import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
-from os import environ
+from os import getenv
 
 from models.amenity import Amenity
 from models.base_model import Base
@@ -14,11 +14,12 @@ from models.state import State
 from models.user import User
 
 
-USER = environ.get("HBNB_MYSQL_USER")
-PWD = environ.get("HBNB_MYSQL_PWD")
-HOST = environ.get("HBNB_MYSQL_HOST")
-DB = environ.get("HBNB_MYSQL_DB")
-ENV = environ.get("HBNB_ENV")
+USER = getenv("HBNB_MYSQL_USER")
+PWD = getenv("HBNB_MYSQL_PWD")
+HOST = getenv("HBNB_MYSQL_HOST")
+DB = getenv("HBNB_MYSQL_DB")
+ENV = getenv("HBNB_ENV")
+
 
 class DBStorage:
     """Database storage class for dbstorage instance creation."""
@@ -35,6 +36,8 @@ class DBStorage:
         self.__engine = create_engine("mysql+mysqldb://{}:{}@{}:3306/{}"
                                       .format(USER, PWD, HOST, DB),
                                       pool_pre_ping=True)
+        if ENV == "test":
+            Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
         """
