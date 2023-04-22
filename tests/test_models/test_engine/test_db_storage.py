@@ -10,8 +10,10 @@ from sqlalchemy.orm.exc import UnmappedInstanceError
 from models.state import State
 from models.city import City
 from models import storage
+from models.engine.db_storage import DBStorage
 from models.base_model import Base, BaseModel
 from console import HBNBCommand
+unittest.TestLoader.sortTestMethodsUsing = None
 
 
 @unittest.skipUnless(environ.get("HBNB_TYPE_STORAGE") == "db",
@@ -59,6 +61,14 @@ class TestConsoleDatabase(unittest.TestCase):
 
     def test_arguments(self):
         """Test if the passed arguments are there."""
+        cursor = self .db_con.cursor()
+
+        cursor.execute("SET FOREIGN_KEY_CHECKS=0")
+        cursor.execute("DROP TABLE cities;DROP TABLE states")
+        cursor.execute("SET FOREIGN_KEY_CHECKS=1")
+        cursor.close()
+        storage.reload()
+
         with patch("sys.stdout", new=StringIO()) as out:
             HBNBCommand().onecmd("create State name=\"Delta_State\"")
             # getting the id of the state newly created from the console
@@ -104,16 +114,17 @@ class TestDBStorage(unittest.TestCase):
 
     def setUp(self):
         """To set the needed things for every test."""
-        storage.reload()
+        self.storage = DBStorage()
+        self.storage.reload()
 
     def tearDown(self):
         """Run for cleanup on eery test."""
-        cursor = self .db_con.cursor()
+        # cursor = self .db_con.cursor()
 
-        cursor.execute("SET FOREIGN_KEY_CHECKS=0")
-        cursor.execute("DROP TABLE cities;DROP TABLE states")
-        cursor.execute("SET FOREIGN_KEY_CHECKS=1")
-        cursor.close()
+        # cursor.execute("SET FOREIGN_KEY_CHECKS=0")
+        # cursor.execute("DROP TABLE cities;DROP TABLE states")
+        # cursor.execute("SET FOREIGN_KEY_CHECKS=1")
+        # cursor.close() 
 
     def test_basemodel(self):
         """."""
@@ -121,3 +132,17 @@ class TestDBStorage(unittest.TestCase):
             new = BaseModel()
             new.save()
 
+    def test_all(self):
+        """Testing the all method of dbstorage."""
+        edo = State()
+        setattr(edo, "name", "Edo state")
+        sl = State()
+        setattr(sl, "name", "Lagos State")
+        edo.save()
+        sl.save()
+        
+        data = self.storage.all()
+        self.assertEqual(len(data), 2)
+        sl.delete()
+        edo.delete()
+        

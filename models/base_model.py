@@ -68,4 +68,4 @@ class BaseModel:
     def delete(self):
         """Delete itself from the storage."""
         from models import storage
-        storage.delete(self)
+        storage.delete(f"{type(self).__name__}.{self.id}")
