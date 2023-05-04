@@ -1,13 +1,13 @@
 #!/usr/bin/python3
 """ """
-import unittest
+from tests.test_models.test_base_model import test_basemodel
 from models.place import Place
 from models.state import State
 from models.city import City
 from models.user import User
 
 
-class test_Place(unittest.TestCase):
+class test_Place(test_basemodel):
     """ """
     @classmethod
     def setUpClass(cls):
@@ -91,3 +91,4 @@ class test_Place(unittest.TestCase):
 
         self.assertEqual(user.id, place.user_id)
         self.assertEqual(city.id, place.city_id)
+

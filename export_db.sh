@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-export HBNB_ENV="dev"
+export HBNB_ENV="test"
 export HBNB_MYSQL_USER="jojo"
 export HBNB_MYSQL_PWD="speed123"
 export HBNB_MYSQL_HOST="localhost"

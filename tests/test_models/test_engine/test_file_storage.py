@@ -20,6 +20,8 @@ from console import HBNBCommand
 from models.engine.file_storage import FileStorage
 
 
+@unittest.skipIf(os.environ.get("HBNB_TYPE_STORAGE") == "db",
+                 "not suitable storage method")
 class test_fileStorage(unittest.TestCase):
     """ Class to test the file storage method """
 
@@ -45,9 +47,10 @@ class test_fileStorage(unittest.TestCase):
     def test_new(self):
         """ New object is correctly added to __objects """
         new = BaseModel()
+        new.save()
         for obj in storage.all().values():
             temp = obj
-        self.assertTrue(temp is obj)
+        self.assertTrue(temp is new)
 
     def test_all(self):
         """ __objects is properly returned """
@@ -77,7 +80,7 @@ class test_fileStorage(unittest.TestCase):
     def test_reload(self):
         """ Storage file is successfully loaded to __objects """
         new = BaseModel()
-        storage.save()
+        new.save()
         storage.reload()
         for obj in storage.all().values():
             loaded = obj
@@ -111,6 +114,7 @@ class test_fileStorage(unittest.TestCase):
     def test_key_format(self):
         """ Key is properly formatted """
         new = BaseModel()
+        new.save()
         _id = new.to_dict()['id']
         for key in storage.all().keys():
             temp = key
@@ -144,6 +148,8 @@ class test_fileStorage(unittest.TestCase):
                                   'OtherClassName.id2': 'object4'})
 
 
+@unittest.skipIf(os.environ.get("HBNB_TYPE_STORAGE") == "db",
+                 "not suitable storage method")
 class TestConsole(TestCase):
     """Console testcase."""
 
@@ -165,7 +171,7 @@ class TestConsole(TestCase):
     def setUp(self):
         """ setUp method for every tests."""
         with patch("sys.stdout", new=StringIO()) as f:
-            HBNBCommand().onecmd('create State name="NewYork"')
+            HBNBCommand().onecmd('create State name="New_York"')
             self.obj_id = f.getvalue()
 
             HBNBCommand().onecmd('show State {}'.format(
@@ -187,7 +193,7 @@ class TestConsole(TestCase):
         self.assertRegex(self.obj_data, self.obj_id.replace("\n", ""))
 
         with patch("sys.stdout", new=StringIO()) as f:
-            HBNBCommand().onecmd('create State name="Edo State"')
+            HBNBCommand().onecmd('create State name="Edo_State"')
             obj_id = f.getvalue().replace("\n", "")
             HBNBCommand().onecmd('show State {}'.format(obj_id))
             obj_data = f.getvalue()
@@ -201,7 +207,7 @@ class TestConsole(TestCase):
 
         with patch("sys.stdout", new=StringIO()) as f:
             HBNBCommand().onecmd('create User name="Jojo" sprint=3' +
-                                 ' state="Edo State"')
+                                 ' state="Edo_State"')
             user_id = f.getvalue().replace("\n", "")
 
             HBNBCommand().onecmd('show User {}'.format(user_id))
@@ -225,6 +231,8 @@ class TestConsole(TestCase):
             self.assertIsInstance(getattr(user_object, 'state'), str)
 
 
+@unittest.skipIf(os.environ.get("HBNB_TYPE_STORAGE") == "db",
+                 "not suitable storage method")
 class TestConsoleWithFileStorage(TestCase):
 
     @classmethod
@@ -249,7 +257,7 @@ class TestConsoleWithFileStorage(TestCase):
         self.assertEqual(len(all_objects), 0)
 
         with patch("sys.stdout", new=StringIO()) as f:
-            HBNBCommand().onecmd('create State name="Edo State"')
+            HBNBCommand().onecmd('create State name="Edo_State"')
             HBNBCommand().onecmd('create State name="Lagos"')
             HBNBCommand().onecmd('create State name="Imo"')
             HBNBCommand().onecmd('create State name="Delta"')

@@ -8,14 +8,15 @@ import json
 import os
 
 
+@unittest.skipIf(os.environ.get("HBNB_TYPE_STORAGE") == "db",
+                 "skip is storage type is db")
 class test_basemodel(unittest.TestCase):
     """ """
-
-    def __init__(self, *args, **kwargs):
+    @classmethod
+    def setUpClass(cls):
         """ """
-        super().__init__(*args, **kwargs)
-        self.name = 'BaseModel'
-        self.value = BaseModel
+        cls.name = 'BaseModel'
+        cls.value = BaseModel
 
     def setUp(self):
         """ """
@@ -76,9 +77,9 @@ class test_basemodel(unittest.TestCase):
 
     def test_kwargs_one(self):
         """ """
-        n = {'Name': 'test'}
-        with self.assertRaises(KeyError):
-            new = self.value(**n)
+        n = {'name': 'test'}
+        new = self.value(**n)
+        self.assertIn("name", new.__dict__)
 
     def test_id(self):
         """ """

@@ -52,8 +52,8 @@ class DBStorage:
         """
         data_dict = {}
         if cls is not None:
-            for obj in self.__session.query(self.classes[cls]).all():
-                key = "{}.{}".format(self.classes[cls].__name__, obj.id)
+            for obj in self.__session.query(cls).all():
+                key = "{}.{}".format(cls.__name__, obj.id)
                 data_dict[key] = obj
 
         else:
