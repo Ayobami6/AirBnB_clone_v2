@@ -14,6 +14,8 @@ class FileStorage:
         new_dict = {}
         data_dict = self.__objects
         if cls:
+            if type(cls) == str:
+                cls = eval(cls)
             for key in data_dict.keys():
                 # remove the . from te key
                 key_dot_stripped = key.replace(".", " ")

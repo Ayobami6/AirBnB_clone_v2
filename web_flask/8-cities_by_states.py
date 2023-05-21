@@ -14,8 +14,6 @@ def cities_states_route():
     """ Cities and states route
     """
     states = storage.all("State")
-    # cities = storage.all("City")
-
     return render_template("8-cities_by_states.html", states=states)
 
 
