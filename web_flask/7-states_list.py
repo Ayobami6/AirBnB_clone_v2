@@ -1,11 +1,9 @@
 #!/usr/bin/python3
-""" Renders states list
+""" Renders states list from mysql database
 """
 
 from models import storage
-from sqlalchemy import table
 from flask import Flask, render_template
-from sqlalchemy import column
 
 app = Flask(__name__)
 
