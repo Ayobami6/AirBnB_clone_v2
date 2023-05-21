@@ -52,6 +52,8 @@ class DBStorage:
         """
         data_dict = {}
         if cls is not None:
+            if type(cls) is str:
+                cls = eval(cls)
             for obj in self.__session.query(cls).all():
                 key = "{}.{}".format(cls.__name__, obj.id)
                 data_dict[key] = obj
