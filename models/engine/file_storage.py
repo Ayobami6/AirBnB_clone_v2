@@ -74,6 +74,11 @@ class FileStorage:
             key = f"{type(obj).__name__}.{obj.id}"
             del self.__objects[key]
 
+    def close(self):
+        """ Reloads storage
+        """
+        self.reload()
+
     @classmethod
     def set_path(cls, file_path: str):
         """To change the save file path."""
