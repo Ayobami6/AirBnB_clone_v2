@@ -17,7 +17,7 @@ def states_list():
 
 
 @app.teardown_appcontext
-def tearDown(exc):
+def tearDown(exception):
     """ close db sessions
 
     Args:
