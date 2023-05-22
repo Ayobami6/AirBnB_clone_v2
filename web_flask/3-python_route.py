@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 
 @app.route('/python/<text>', strict_slashes=False)
-def python_route(text):
+def python_route(text="is cool"):
     """Returns Python followed by the value of the text variable"""
     return 'Python {}'.format(text.replace('_', ' '))
 

@@ -5,7 +5,7 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 import models
-from os import environ
+from os import getenv
 
 
 class State(BaseModel, Base):
@@ -24,7 +24,7 @@ class State(BaseModel, Base):
         """
         super().__init__(*args, **kwargs)
 
-    if environ.get("HBNB_TYPE_STORAGE") != 'db':
+    if getenv("HBNB_TYPE_STORAGE") != 'db':
         @property
         def cities(self):
             """All cities associated with city id."""
