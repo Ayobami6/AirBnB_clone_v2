@@ -15,15 +15,6 @@ class State(BaseModel, Base):
     name = Column(String(128), nullable=False)
     cities = relationship("City", backref="state", cascade="all, delete")
 
-    def __init__(self, *args, **kwargs):
-        """ Instatiation function
-
-        Args:
-            *args: Description
-            **kwargs: Description
-        """
-        super().__init__(*args, **kwargs)
-
     if getenv("HBNB_TYPE_STORAGE") != 'db':
         @property
         def cities(self):
